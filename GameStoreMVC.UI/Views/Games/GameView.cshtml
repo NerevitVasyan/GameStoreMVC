@@ -1,0 +1,24 @@
+﻿@model IEnumerable<GameStoreMVC.BLL.DtoModels.GameDto>
+
+<div class="row">
+
+    @foreach (var g in Model)
+    {
+        <div class="col-xl-3 col-lg-4 col-md-6 col-12 game-card">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">@g.Name</h5>
+                    <h6 class="card-title">@g.Id</h6>
+                </div>
+                <div class="card-body">
+                    <h6 class="card-text">@g.Producer.Name</h6>
+                    <p class="card-text">@g.Year</p>
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-success w-100"> Buy Game</button>
+                </div>
+            </div>
+        </div>
+    }
+
+</div>

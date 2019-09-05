@@ -1,0 +1,113 @@
+﻿@model  PagedList.IPagedList<GameStoreMVC.BLL.DtoModels.GameDto>
+@using PagedList.Mvc;
+
+@*<div class="row">
+        <div class="col-xl-3 col-md-6 col-12">
+            <div style="background:red; height:50px;"></div>
+        </div>
+        <div class="col-xl-3 col-md-6 col-12">
+            <div style="background:red; height:50px;"></div>
+        </div>
+        <div class="col-xl-3 col-md-6 col-12">
+            <div style="background:red; height:50px;"></div>
+        </div>
+        <div class="col-xl-3 col-md-6 col-12">
+            <div style="background:red; height:50px;"></div>
+        </div>
+    </div>*@
+
+<div class="sidebar">
+    @using (Ajax.BeginForm("GetGame", new AjaxOptions { UpdateTargetId = "filteredGames" }))
+    {
+        <div class="form-group">
+            <label class="col-form-label">Name:</label>
+            <input name="gameName" class="form-control" type="text" />
+        </div>
+        <input type="submit" class="btn btn-info w-100" value="Sented" />
+    }
+
+    <div id="resultGame">
+
+    </div>
+
+    @foreach (var p in ViewBag.Producers)
+    {
+        <span class="form-control">
+            <input id="@p" type="checkbox" onchange="checkProducer(event)" />
+            @p
+        </span>
+
+    }
+
+    <script>
+
+        function checkProducer(e) {
+            if (e.target.checked) {
+
+                $("#filteredGames").load("Games/GetGamesByProducers?producerName=" + e.target.id);
+
+            }
+        }
+
+    </script>
+
+
+</div>
+
+<div>
+
+    @*@Ajax.ActionLink("ClickHere",
+                         "SomeAction",
+                         null,
+                         new AjaxOptions {
+                             UpdateTargetId = "result",
+                             //Confirm = "Are you sure?",
+                             InsertionMode = InsertionMode.InsertAfter,
+                             OnBegin = "ajaxFunc",
+                             LoadingElementId = "loader",
+                             LoadingElementDuration = 500
+                         },
+                         new
+                         {
+                             @class = "btn btn-info w-100"
+                         })
+
+        <div id="result">
+
+        </div>
+
+        <div id="loader" class="loader"></div>
+
+        <script>
+            //$("#result").load("SomeAction")
+
+            function ajaxFunc() {
+                console.log("ajax");
+            }
+        </script>*@
+
+</div>
+
+<div id="games" class="container">
+    <div id="filteredGames">
+        @{
+            Html.RenderPartial("GameView", Model.ToList());
+        }
+    </div>
+</div>
+
+
+
+@Html.PagedListPager(Model,
+    page => Url.Action("Index", new { page }),
+    PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(
+        PagedListRenderOptions.Classic,
+        new AjaxOptions
+        {
+            UpdateTargetId = "filteredGames"
+        }
+        ))
+
+@*<script>
+            alert('@Model.ElementAt(0).Name');
+    </script>*@

@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/PagedList.css" rel="stylesheet" />
+    <link href="~/Content/style.css" rel="stylesheet" />
+</head>
+<body>
+    <script src="~/Scripts/jquery-3.0.0.min.js"></script>
+
+    <header>
+        @if (!Request.IsAuthenticated)
+        {
+            @Html.ActionLink("Register", "Register", "Account", null, new { @class = "btn btn-success" })
+            @Html.ActionLink("SignIn", "Login", "Account", null, new { @class = "btn btn-success" })
+        }
+        else
+        {
+            <h5>@User.Identity.Name</h5>
+            @Html.ActionLink("SignOut", "SignOut", "Account", null, new { @class = "btn btn-success" })
+            if (User.IsInRole("ADMIN"))
+            {
+                @Html.ActionLink("ADMIN PANEL", "Index", "Admin", null, new { @class = "btn btn-success" })
+            }
+        }
+    </header>
+    <div>
+        @RenderBody()
+    </div>
+
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Scripts/bootstrap.bundle.min.js"></script>
+</body>
+</html>
